@@ -5,6 +5,9 @@ const Header = () => {
     return (
         <main>
             <header>Northcoders News</header>
+            <Link to='/'>
+                <p>Home</p>
+            </Link>
             <Link to='/topics'>
               <p>Topics</p>
             </Link>

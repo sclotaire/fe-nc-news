@@ -9,3 +9,15 @@ export const getArticles = () => {
         return response.data.allArticles;
     })
 }
+
+export const getArticleById = (article_id) => {
+    return ncNewsApi.get(`/articles/${article_id}`).then((response) => {
+      return response.data.article
+    })
+}
+
+export const getComments = (article_id) => {
+    return ncNewsApi.get(`/articles/${article_id}/comments`).then((comments) => {
+        return comments.data.comments
+    })
+}
