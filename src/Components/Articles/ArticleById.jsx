@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState} from "react";
 import { getArticleById } from "../../App";
 import { useParams } from 'react-router-dom'
 import { Link } from "react-router-dom";
@@ -9,6 +9,8 @@ const ArticleById = () => {
 
     const { article_id } = useParams();
     const [article, setArticle] = useState({})
+    const [showingComments, setShowingComments] = useState(false)
+    const [noComments, setNoComments] = useState(false)
 
     useEffect(() => {
         getArticleById(article_id).then((articleFromApi) => {
@@ -17,14 +19,7 @@ const ArticleById = () => {
     }, [])
 
 
-    const [comments, setComments] = useState([])
-
-    useEffect(() => {
-        getComments(article_id).then((commentsFromApi) => {
-            setComments(commentsFromApi)
-        })
-    }, [])
-
+   
 
     return (
         <main>
@@ -35,14 +30,11 @@ const ArticleById = () => {
             <p>{article.body}</p>
             <p>Article ID: {article.article_id}</p>
             <p>Votes: {article.votes}</p>
-            
-            <button id='title' onClick={()=> {comments.map((comment, index) => {
-                {console.log(comment);}
-                <p>{comment.comment_id}</p>
-            })}}>Read comments</button>
-            
             <p>Comment Count: {article.comment_count}</p>
             <p>Created at: {article.created_at}</p>
+            {article.comment_count ?  <button onClick={()=>setShowingComments(!showingComments)}>Read comments</button> : <p>There are no comments for this article. Why not leave one?</p>}
+            {showingComments ?<Comments article_id={article_id}/> : null}
+            
         </main>
     )
 }
