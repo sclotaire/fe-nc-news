@@ -16,8 +16,21 @@ export const getArticleById = (article_id) => {
     })
 }
 
+export const getUsers = () => {
+    return ncNewsApi.get('/users').then((users) => {
+        return users.data.users
+    })
+}
+
 export const getComments = (article_id) => {
     return ncNewsApi.get(`/articles/${article_id}/comments`).then((comments) => {
         return comments.data.comments
     })
 }
+
+export const postComment = (article_id, commentData) => {
+    return ncNewsApi.post(`/articles/${article_id}/comments`, commentData).then((newComment)=>{
+        return newComment.data.comment
+    })
+}
+
