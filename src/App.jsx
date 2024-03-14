@@ -19,7 +19,6 @@ function App() {
   })
   const [loggedIn, setLoggedIn] = useState(false)
   const [username, setUsername] = useState('')
-  const [isLoading, setIsLoading] = useState(false)
 
   return (
     <UserContext.Provider value={{loggedInUser: loggedInUser, setLoggedInUser: setLoggedInUser}}>
@@ -28,7 +27,7 @@ function App() {
         <Route path='/' element={<Home username={username} loggedIn={loggedIn} setLoggedIn={setLoggedIn}/>}/>
         <Route path='/login' element={<Login setLoggedIn={setLoggedIn} setUsername={setUsername} username={username}/>}/>
         <Route path='/articles' element={<ArticleList/>}/>
-        <Route path='/articles/:article_id' element={<ArticleById isLoading={isLoading} setIsLoading={setIsLoading}/>}/>
+        <Route path='/articles/:article_id' element={<ArticleById />}/>
         <Route path='/users' element={<Users/>}/>
         <Route path='/articles/:article_id/comments' element={<Comments />}/>
       </Routes>

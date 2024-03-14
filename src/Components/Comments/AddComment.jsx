@@ -5,16 +5,17 @@ import { Link } from "react-router-dom"
 import './AddComments.css'
 import Login from "../Login/Login"
 
-const AddComment = ({ article_id, comments, isLoading, setIsLoading }) => {
+const AddComment = ({ article_id, comments, setComments}) => {
     const [body, setBody] = useState('')
     const [author, setAuthor] = useState('')
     const [bodyError, setBodyError] = useState('')
     const [authorError, setAuthorError] = useState('')
-    const [newComment, setNewComment] = useState('')
-
+    const [isLoading, setIsLoading] = useState(false)
+    const [invalidUserError, setInvalidUserError] = useState('')
     
+
     const handleClick = (event) => {
-        
+       
         setIsLoading(true)
         event.preventDefault()
 
@@ -22,10 +23,12 @@ const AddComment = ({ article_id, comments, isLoading, setIsLoading }) => {
 
         if ('' === body) {
             setBodyError('Please enter a comment')
+            setIsLoading(false)
         }
 
         if ('' === author) {
             setAuthorError('Please enter a username')
+            setIsLoading(false)
         }
 
 
@@ -35,15 +38,16 @@ const AddComment = ({ article_id, comments, isLoading, setIsLoading }) => {
         }
 
         postComment(article_id, commentData).then((commentFromApi) => {
-            setNewComment(commentFromApi)
-            return [...comments, newComment]
-
+            setIsLoading(false)
+            setComments([...comments, commentFromApi])
+            return comments
+        }).catch((err) => {
+            if (err) setInvalidUserError('Please enter a valid username')
+            setIsLoading(false)
         })
 
         setAuthor('')
         setBody('')
-        setNewComment('')
-        setIsLoading('false')
     }
 
 
@@ -59,6 +63,7 @@ const AddComment = ({ article_id, comments, isLoading, setIsLoading }) => {
                     className="inputBox"
                 />
                 <label className="errorLabel">{authorError}</label>
+                <label className='errorLabel'>{invalidUserError}</label>
             </div>
 
             <br />
@@ -92,23 +97,6 @@ const AddComment = ({ article_id, comments, isLoading, setIsLoading }) => {
     )
 }
 
-// <Link to={`/articles/${article_id}/comments`}>
-// </Link>
 
-
-//  <form onSubmit={handleSubmit}>
-//       <div>
-//              <input
-//              type="text"
-//              placeholder="Enter your comment here"
-//              value={newComment}
-//              onChange={(event) => setBody(event.target.value)}/>
-
-//       </div>
-
-//         <Link to={`/articles/${article_id}/comments`}>
-//         <button onClick={handleSubmit}>Add comment</button>
-//         </Link>
-//     </form>
 
 export default AddComment
