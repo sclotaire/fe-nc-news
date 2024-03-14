@@ -2,9 +2,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getComments } from "../../App";
 
-const Comments = ({article_id}) => {
-
-    const [comments, setComments] = useState([])
+const Comments = ({article_id, comments, setComments}) => {
 
     useEffect(() => {
         getComments(article_id).then((commentsFromApi) => {
