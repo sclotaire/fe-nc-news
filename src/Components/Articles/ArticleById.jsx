@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom'
 import Comments from "../Comments/Comments";
 import AddComment from "../Comments/AddComment";
 
-const ArticleById = () => {
+const ArticleById = ({isLoading, setIsLoading}) => {
 
     const [comments, setComments] = useState([])
     const { article_id } = useParams();
@@ -30,14 +30,13 @@ const ArticleById = () => {
             <img id='article-img' src={article.article_img_url} />
             <p>{article.body}</p>
             <p>Article ID: {article.article_id}</p>
-
             <p>Votes: {votes}</p>
             <button onClick={()=>setVotes(votes+1)}>+</button>
             <button onClick={() => setVotes(votes-1)}>-</button>
 
             <p>Comment Count: {article.comment_count}</p>
             <p>Created at: {article.created_at}</p>
-            <AddComment comments={comments} comment_count={article.comment_count} article_id={article_id}/>
+            <AddComment comments={comments} article_id={article_id} isLoading={isLoading} setIsLoading={setIsLoading}/>
 
             {article.comment_count ?  <button onClick={()=>setShowingComments(!showingComments)}>Read comments</button> : <p>There are no comments for this article. Why not leave one?</p>}
             {showingComments ?<Comments comments={comments} setComments={setComments} article_id={article_id}/> : null}
